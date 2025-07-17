@@ -110,9 +110,20 @@ app.get('/', (req, res) => {
                 <ul>`;
         if (Object.keys(bots).length > 0) {
             Object.keys(bots).forEach(name => {
-                const isConnected = bots[name]?.sock?.ws?.readyState === 1;
-                const status = isConnected ? '<span class="status-ok">Conectado ✅</span>' : '<span class="status-qr">Aguardando QR Code 📱</span>';
-                const qrLink = !isConnected && bots[name]?.qr ? `<a href="/?name=${name}">Ver QR Code</a>` : 'N/A';
+                const botInstance = bots[name];
+                let status = '<span class="status-qr">Iniciando... ⏳</span>';
+                let qrLink = 'N/A';
+
+                if (botInstance) {
+                    const isConnected = botInstance.sock?.ws?.readyState === 1;
+                    if (isConnected) {
+                        status = '<span class="status-ok">Conectado ✅</span>';
+                    } else if (botInstance.qr) {
+                        status = '<span class="status-qr">Aguardando QR Code 📱</span>';
+                        qrLink = `<a href="/?name=${name}">Ver QR Code</a>`;
+                    } // Se não estiver conectado e não tiver QR, mantém o status 'Iniciando...'
+                }
+
                 body += `<li><b>${name.replace(/_/g, ' ')}</b> <span>Status: ${status} | QR Code: ${qrLink}</span></li>`;
             });
         } else {
