@@ -57,9 +57,15 @@ if (establishmentDirs.length === 0) {
 
                 if (connection === 'close') {
                     const reason = new Boom(lastDisconnect.error)?.output.statusCode;
-                    // Se foi desconectado pelo usuário, reinicia o bot para gerar novo QR
-                    if (reason === DisconnectReason.loggedOut) {
-                        console.log(`[${establishmentName}] Desconectado. Reiniciando para obter novo QR Code...`);
+
+                    // Se foi desconectado pelo usuário (logout) ou se o servidor exige reinicialização (515)
+                    if (reason === DisconnectReason.loggedOut || reason === DisconnectReason.restartRequired) {
+                        console.log(`[${establishmentName}] Erro de conexão fatal (Razão: ${reason}). Removendo autenticação e reiniciando...`);
+                        // Apaga a pasta de autenticação para forçar uma sessão limpa
+                        const authPath = require('path').join(establishmentsPath, establishmentName, 'baileys_auth_info');
+                        if (require('fs').existsSync(authPath)) {
+                            require('fs').rmSync(authPath, { recursive: true, force: true });
+                        }
                         delete bots[establishmentName];
                         await launch(establishmentName);
                     }
