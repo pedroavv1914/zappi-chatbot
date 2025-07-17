@@ -2,35 +2,36 @@ const fs = require('fs');
 const path = require('path');
 const http = require('http');
 const qrcode = require('qrcode');
+const express = require('express');
 const { startBot } = require('./src/bot.js');
 const { Boom } = require('@hapi/boom');
 const { DisconnectReason } = require('@whiskeysockets/baileys');
+const { establishmentsPath } = require('./src/config');
 
-const establishmentsDir = path.join(__dirname, 'establishments');
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Objeto para armazenar as instâncias dos bots e seus QR codes
 const bots = {};
 
-// Inicia os bots para cada estabelecimento
-fs.readdir(establishmentsDir, { withFileTypes: true }, (err, files) => {
-    if (err) {
-        console.error('Erro ao ler o diretório de estabelecimentos:', err);
-        return;
-    }
+// --- Lógica de Inicialização --- 
 
-    const establishmentDirs = files.filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
+// Garante que a pasta de estabelecimentos exista (essencial para o primeiro deploy no Render)
+if (!fs.existsSync(establishmentsPath)) {
+    console.log(`[Launcher] Criando diretório de estabelecimentos em: ${establishmentsPath}`);
+    fs.mkdirSync(establishmentsPath, { recursive: true });
+}
 
-    if (establishmentDirs.length === 0) {
-        console.log('Nenhum estabelecimento encontrado na pasta /establishments. Crie uma pasta para cada um.');
-        return;
-    }
+const establishmentDirs = fs.readdirSync(establishmentsPath, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name);
 
+if (establishmentDirs.length === 0) {
+    console.log('Nenhum estabelecimento encontrado. Crie subdiretórios dentro da pasta /establishments.');
+} else {
     console.log(`Encontrados ${establishmentDirs.length} estabelecimentos. Iniciando bots...`);
-
     establishmentDirs.forEach((name) => {
-        // Usamos uma função para poder chamá-la recursivamente em caso de logout
-        const launch = async (establishmentName) => {
+        // Usamos uma função anônima auto-executável para poder chamá-la recursivamente em caso de logout
+        (async function launch(establishmentName) {
             console.log(`-> Iniciando bot para: ${establishmentName}`);
             const sock = await startBot(establishmentName);
             bots[establishmentName] = { sock, qr: null };
