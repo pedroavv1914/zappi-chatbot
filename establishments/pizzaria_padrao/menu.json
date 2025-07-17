@@ -1,0 +1,11 @@
+{
+  "pizzas": [
+    { "id": 1, "name": "Margherita", "price": 35.00, "ingredients": "Molho de tomate, muçarela fresca e manjericão." },
+    { "id": 2, "name": "Calabresa", "price": 40.00, "ingredients": "Molho de tomate, muçarela, calabresa fatiada e cebola." },
+    { "id": 3, "name": "Frango com Catupiry", "price": 45.00, "ingredients": "Molho de tomate, muçarela, frango desfiado e catupiry cremoso." }
+  ],
+  "bebidas": [
+    { "id": 4, "name": "Coca-Cola 2L", "price": 10.00 },
+    { "id": 5, "name": "Guaraná 1L", "price": 8.00 }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "pizzas": [
+    { "id": 1, "name": "X-Burger Clássico", "price": 25.00, "ingredients": "Pão, hambúrguer de 150g, queijo, alface e tomate." },
+    { "id": 2, "name": "X-Bacon Monstro", "price": 30.00, "ingredients": "Pão, hambúrguer de 150g, queijo, muito bacon e molho especial." }
+  ],
+  "bebidas": [
+    { "id": 3, "name": "Milkshake de Chocolate", "price": 15.00 },
+    { "id": 4, "name": "Refrigerante Lata", "price": 6.00 }
+  ]
+}

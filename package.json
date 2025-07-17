@@ -1,0 +1,31 @@
+{
+  "name": "zappi-chatbot",
+  "version": "1.0.0",
+  "main": "launcher.js",
+  "scripts": {
+    "start": "node launcher.js",
+    "start:prod": "pm2 start launcher.js --name zappi-bots",
+    "stop:prod": "pm2 stop zappi-bots",
+    "restart:prod": "pm2 restart zappi-bots",
+    "logs": "pm2 logs zappi-bots",
+    "monitor": "pm2 monit",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@hapi/boom": "^10.0.1",
+    "@whiskeysockets/baileys": "^6.7.2",
+    "dotenv": "^17.2.0",
+    "pino-pretty": "^13.0.0",
+    "qrcode": "^1.5.4",
+    "rimraf": "^6.0.1",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "pm2": "^6.0.8"
+  }
+}
