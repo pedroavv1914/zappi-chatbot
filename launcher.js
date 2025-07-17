@@ -137,7 +137,7 @@ app.get('/', (req, res) => {
 app.get('/qrcode', (req, res) => {
     const establishmentName = req.query.name;
     if (establishmentName && bots[establishmentName]?.qr) {
-        qrcode.toFileStream(res, bots[establishmentName].qr, { type: 'png' });
+        qrcode.toFileStream(res, bots[establishmentName].qr, { type: 'png', errorCorrectionLevel: 'H' });
     } else {
         res.status(404).send('QR Code não encontrado ou bot já conectado.');
     }
