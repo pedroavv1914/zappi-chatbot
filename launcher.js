@@ -58,8 +58,8 @@ if (establishmentDirs.length === 0) {
                 if (connection === 'close') {
                     const reason = new Boom(lastDisconnect.error)?.output.statusCode;
 
-                    // Se foi desconectado pelo usuário (logout) ou se o servidor exige reinicialização (515)
-                    if (reason === DisconnectReason.loggedOut || reason === DisconnectReason.restartRequired) {
+                    // Se a sessão for inválida (401), desconectada (logout) ou se o servidor exigir reinicialização (515)
+                    if (reason === DisconnectReason.unauthorized || reason === DisconnectReason.loggedOut || reason === DisconnectReason.restartRequired) {
                         console.log(`[${establishmentName}] Erro de conexão fatal (Razão: ${reason}). Removendo autenticação e reiniciando...`);
                         // Apaga a pasta de autenticação para forçar uma sessão limpa
                         const authPath = require('path').join(establishmentsPath, establishmentName, 'baileys_auth_info');
