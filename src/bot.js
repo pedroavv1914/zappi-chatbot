@@ -43,6 +43,7 @@ async function startBot(establishmentName) {
     const { state, saveCreds } = await useMultiFileAuthState(authPath);
 
     const sock = makeWASocket({
+        browser: ['ZappiBot', 'Chrome', '1.0.0'], // Identificador do navegador
         logger: pino({ level: 'silent' }),
         auth: state
     });
