@@ -43,10 +43,8 @@ async function startBot(establishmentName) {
     const { state, saveCreds } = await useMultiFileAuthState(authPath);
 
     const sock = makeWASocket({
-        // Alterado para 'debug' para obter logs detalhados da conexão
-        logger: pino({ level: 'debug' }),
-        auth: state,
-        printQRInTerminal: true
+        logger: pino({ level: 'silent' }),
+        auth: state
     });
 
     sock.ev.on('connection.update', async (update) => {
