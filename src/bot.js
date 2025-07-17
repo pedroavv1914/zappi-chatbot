@@ -11,10 +11,11 @@ const {
     setCooldown,
     createOrder
 } = require('./database');
+const { establishmentsPath } = require('./config');
 
 // Função para iniciar uma instância do bot para um estabelecimento específico
 async function startBot(establishmentName) {
-    const establishmentPath = path.join(__dirname, '..', 'establishments', establishmentName);
+    const establishmentPath = path.join(establishmentsPath, establishmentName);
     const authPath = path.join(establishmentPath, 'baileys_auth_info');
     const menuPath = path.join(establishmentPath, 'menu.json');
 
@@ -58,8 +59,6 @@ async function startBot(establishmentName) {
                 fs.rmSync(authPath, { recursive: true, force: true });
             } else {
                 console.log(`[${establishmentName}] Conexão perdida. Tentando reconectar...`);
-                // Para outras razões de desconexão, o Baileys tentará reconectar automaticamente.
-                // Se falhar, o launcher pode precisar intervir, mas por enquanto deixamos o padrão.
             }
         } else if (connection === 'open') {
             console.log(`[${establishmentName}] Conexão aberta com sucesso!`);
