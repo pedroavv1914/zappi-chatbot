@@ -4,7 +4,7 @@
   "main": "launcher.js",
   "scripts": {
     "start": "node launcher.js",
-    "start:prod": "pm2 start launcher.js --name zappi-bots",
+    "start:prod": "pm2-runtime start launcher.js --name zappi-bots",
     "stop:prod": "pm2 stop zappi-bots",
     "restart:prod": "pm2 restart zappi-bots",
     "logs": "pm2 logs zappi-bots",
