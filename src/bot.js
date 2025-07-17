@@ -45,7 +45,7 @@ async function startBot(establishmentName) {
     const sock = makeWASocket({
         logger: pino({ level: 'silent' }),
         auth: state,
-        printQRInTerminal: false
+        printQRInTerminal: true
     });
 
     sock.ev.on('connection.update', async (update) => {
