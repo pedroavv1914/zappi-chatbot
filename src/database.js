@@ -1,5 +1,6 @@
 const sqlite3 = require('sqlite3');
 const { open } = require('sqlite');
+const { databasePath } = require('./config');
 
 let db;
 
@@ -7,7 +8,7 @@ async function initializeDatabase() {
     if (db) return db;
 
     db = await open({
-        filename: './zappi.db',
+        filename: databasePath,
         driver: sqlite3.Database
     });
 
